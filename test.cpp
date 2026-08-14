@@ -18,7 +18,7 @@ int main() {
         window.display();
     }
 
-    
+    // ns
 
     return 0;
 }
