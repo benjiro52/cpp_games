@@ -25,7 +25,21 @@ int main() {
                 player.move({0.f, -speed});
             }
         }
-
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+            if (player.getPosition().y + 20.f + speed <= 600.f) {
+                player.move({0.f, speed});
+            }
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
+            if (player.getPosition().x - speed >= 0.f) {
+                player.move({-speed, 0.f});
+            }
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
+            if (player.getPosition().x + 20.f + speed <= 800.f) {
+                player.move({speed, 0.f});
+            }
+        }
 
         window.clear(sf::Color::Black);
         window.draw(player);
