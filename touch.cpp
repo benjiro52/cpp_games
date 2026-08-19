@@ -61,7 +61,7 @@ void spawnRedRectangles(vector<redRectangle>& obstacles) {
 }
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({800,600}), "mv_lesson_repeat");
+    sf::RenderWindow window(sf::VideoMode({800,600}), "touch");
 
     sf::RectangleShape player({25.f, 25.f});
     player.setFillColor(sf::Color::White);
