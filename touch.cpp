@@ -102,5 +102,5 @@ int main() {
     }
     return 0;
 }
-
+// what?
 // g++ touch.cpp -o touch.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
