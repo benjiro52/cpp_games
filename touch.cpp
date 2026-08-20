@@ -21,29 +21,37 @@ public:
 };
 
 void Movement(sf::RectangleShape& player, float speed) {
+    sf::Clock clock; // это секундомер, который начинает тикать с момента создания.
+    sf::Time elapsed = clock.getElapsedTime(); // Метод возвращает, сколько времени прошло с последнего сброса
+    float seconds = elapsed.asSeconds();
+    const float moveDelay = 0.15f;
+
+    // const float cellSize = 25.f;
     sf::Vector2f pos = player.getPosition();
-    pos.x;
-    pos.y;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
         if (player.getPosition().y - speed >= 0.f) {
             player.move({0.f, -speed});    
         }
+        // clock.restart();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
         if (player.getPosition().y + 20.f + speed <= 600.f) {
             player.move({0.f, speed});
         }
+        // clock.restart();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
         if (player.getPosition().x - speed >= 0.f) {
             player.move({-speed, 0.f});
         }
+        // clock.restart();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
         if (player.getPosition().x + 20.f + speed <= 800.f) {
             player.move({speed, 0.f});
         }
+        // clock.restart();
     }
 }
 
