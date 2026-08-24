@@ -4,7 +4,7 @@ using namespace std;
 int main() {
     random_device ran;
     mt19937 gen(ran());
-    uniform_int_distribution<int> dist(60, 100);
+    uniform_int_distribution<int> dist(0, 800);
 
     int result = dist(gen);
     if (result == 67) {

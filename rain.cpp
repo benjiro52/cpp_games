@@ -15,6 +15,14 @@ public:
         window.draw(raindrop);
     }
 
+    void movementRain() {
+        float speed = 0.11f;
+        // if (raindrop.getGlobalBounds().position.y + raindrop.getGlobalBounds().size.y + speed <= 600.f) { 
+        //     raindrop.move({0.f, speed});
+        // }
+        raindrop.move({0.f, speed});
+    }
+
     sf::FloatRect getBounds() {
         return raindrop.getGlobalBounds();
     }
@@ -46,8 +54,17 @@ void Movement(sf::RectangleShape& player, float speed) {
     }
 }
 
-void rainSpawn(vector<Rain>& rain) {
-    rain.push_back(Rain({25.f, 25.f}));
+
+void rainRandomSpawn(vector<Rain>& rain) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> distX(0, 760);
+    uniform_int_distribution<int> distY(0, 10);
+
+    float x = static_cast<float>(distX(gen));
+    float y = static_cast<float>(distY(gen));
+
+    rain.push_back(Rain({x, y}));
 }
 
 int main() {
@@ -59,7 +76,9 @@ int main() {
     float speed = 0.08f;
 
     vector<Rain> rain;
-    rainSpawn(rain);
+    rainRandomSpawn(rain);
+
+    sf::Clock rainClock;
 
     while (window.isOpen()) {
         while (const optional event = window.pollEvent()) {
@@ -68,11 +87,17 @@ int main() {
             }
         }
 
+        if (rainClock.getElapsedTime().asSeconds() >= 0.2f) {
+            rainRandomSpawn(rain);
+            rainClock.restart();
+        }
+        
         Movement(player, speed);
         window.clear(sf::Color(49, 90, 131));
         window.draw(player);
         for (Rain& drop : rain) {
             drop.draw(window);
+            drop.movementRain();
         }
         for (Rain& drop : rain) {
             if (player.getGlobalBounds().findIntersection(drop.getBounds())) {
