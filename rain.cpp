@@ -108,3 +108,4 @@ int main() {
     }
 }
 // g++ rain.cpp -o rain.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
+// i need a rest. I've done enough
