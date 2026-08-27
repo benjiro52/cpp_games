@@ -36,3 +36,4 @@ int main() {
     }
 }
 // g++ time_training.cpp -o time_training.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
+// i lost
