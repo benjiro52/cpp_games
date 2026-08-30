@@ -12,5 +12,14 @@ enum class GameState {
 // GameState::Menu куда яснее, чем "переменная равна нулю".
 
 int main() {
-    
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "menu");
+
+    while (const optional event = window.pollEvent()) {
+        if (event->is<sf::Event::Closed>()) {
+            window.close();
+        }
+
+        
+    }
 }
+// g++ menu_training.cpp -o menu_training.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
