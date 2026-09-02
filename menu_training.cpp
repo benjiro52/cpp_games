@@ -60,4 +60,4 @@ int main() {
     }
 }
 // g++ menu_training.cpp -o menu_training.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
-// where is my commit?
+// i am fo fucking bad and stupid?
