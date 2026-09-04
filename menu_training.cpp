@@ -19,7 +19,7 @@ int main() {
     if (!font.openFromFile("arial.ttf")) {
         // обработка ошибки — файл шрифта не найден
     }
-    sf::Text text(font, "testing testing testing", 30); 
+    sf::Text text(font, "testing testing testing", 50); 
     text.setFillColor(sf::Color::White);
     text.setPosition({250.f, 250.f});
     
