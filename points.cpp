@@ -50,7 +50,7 @@ public:
 
 class Obstacle {
 private:
-    sf::RectangleShape obstacle;
+    sf::CircleShape obstacle;
 public:
     
 };
