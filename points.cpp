@@ -52,14 +52,39 @@ class Obstacle {
 private:
     sf::CircleShape obstacle;
 public:
+    Obstacle (sf::Vector2f startPos) : obstacle{20.f} {
+        obstacle.setFillColor(sf::Color(128, 128, 128));
+        obstacle.setPosition(startPos);
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(obstacle);
+    }
+
     
 };
+
+void spawnObstacle(vector<Obstacle>& obstacles_vec) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> distX(0, 775); // 800 - 25
+    uniform_int_distribution<int> distY(0, 575); // 600 - 25
+
+    float x = static_cast<float>(distX(gen));
+    float y = static_cast<float>(distY(gen));
+
+    obstacles_vec.push_back(Obstacle({x, y}));
+}
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "preparing1");
     GameState currentState = GameState::Menu;
+
     Player player({375.f, 275.f});
     float player_speed = 0.05f;
+
+    vector<Obstacle> obstacles_vec;
+
 
     // text
     sf::Font font;
@@ -94,6 +119,8 @@ int main() {
             player.draw(window);
             player.Movement(player_speed);
             
+            
+
         }
         window.display();
     }
