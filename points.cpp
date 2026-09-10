@@ -126,4 +126,3 @@ int main() {
     }
 }
 // g++ points.cpp -o points.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
-// i am ado stupid
