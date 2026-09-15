@@ -46,6 +46,10 @@ public:
             }
         }
     }
+
+    sf::FloatRect getBounds() {
+        return rectangle.getGlobalBounds();
+    }
 };
 
 class Obstacle {
@@ -61,7 +65,10 @@ public:
         window.draw(obstacle);
     }
 
-    
+    sf::FloatRect getBounds() {
+        return obstacle.getGlobalBounds();
+    }
+
 };
 
 void spawnObstacle(vector<Obstacle>& obstacles_vec) {
@@ -84,7 +91,9 @@ int main() {
     float player_speed = 0.05f;
 
     vector<Obstacle> obstacles_vec;
-
+    for (int i = 0; i < 1; i++) {
+        spawnObstacle(obstacles_vec);
+    }
 
     // text
     sf::Font font;
@@ -94,6 +103,12 @@ int main() {
     sf::Text text(font, "Welcome to preparing1. Press Enter to continue", 30);
     text.setFillColor(sf::Color::White);
     text.setPosition({50.f, 250.f});
+
+    // counter
+    int score = 0;
+    sf::Text counter(font, "Points: 0", 15);
+    counter.setFillColor(sf::Color::White);
+    counter.setPosition({10.f, 10.f});
 
 
     while (window.isOpen()) {
@@ -109,18 +124,36 @@ int main() {
                 currentState = GameState::Playing;
             }
         }
-
         if (currentState == GameState::Menu) {
             window.clear(sf::Color::Black);
             window.draw(text);
         }
         if (currentState == GameState::Playing) {
             window.clear(sf::Color::Black);
-            player.draw(window);
             player.Movement(player_speed);
-            
-            // finish spawnObstacle
+            player.draw(window);
 
+            int hits = 0;
+            for (int i = 0; i < obstacles_vec.size(); i++) {
+                if (player.getBounds().findIntersection(obstacles_vec[i].getBounds())) {
+                    obstacles_vec.erase(obstacles_vec.begin() + i);
+                    hits++;
+                    i--; 
+                }
+            }
+
+            score += hits;
+            for (int i = 0; i < hits; i++) {
+                spawnObstacle(obstacles_vec);
+            }
+            for (Obstacle& obs : obstacles_vec) {
+                obs.draw(window);
+            }
+
+            counter.setString("Points: " + to_string(score));
+            window.draw(counter);
+
+            // finish spawnObstacle
         }
         window.display();
     }
