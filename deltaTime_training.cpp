@@ -44,11 +44,9 @@ public:
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "preparing1");
 
-
     sf::Clock deltaClock; // this is new
     Player player({375.f, 275.f});
-    float player_speed = 0.05f;
-
+    float player_speed = 200.f;
 
     while(window.isOpen()) {
         while (const optional event = window.pollEvent()) {
@@ -65,4 +63,4 @@ int main() {
     }
 }
 // g++ deltaTime_training.cpp -o deltaTime_training.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
-// how far am i to snake??????
+// how far am i from snake??????
