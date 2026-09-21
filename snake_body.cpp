@@ -41,6 +41,22 @@ public:
             }
         }
     }
+
+
+};
+
+class Obstacle {
+private:
+    sf::CircleShape circle;
+public: 
+    Obstacle(sf::Vector2f startPos2) : circle{20.f} {
+        circle.setFillColor(sf::Color::Red);
+        circle.setPosition(startPos2);
+    }
+    
+    void draw(sf::RenderWindow& window) {
+        window.draw(circle);
+    }
 };
 
 int main() {
@@ -49,6 +65,12 @@ int main() {
     Snake snake({375.f, 275.f});
     sf::Clock deltaClock;
     float snake_speed = 300.f;
+
+    vector<Obstacle> vec_obstacles = {
+        Obstacle({100.f, 200.f}),
+        Obstacle({567.f, 400.f}),
+        Obstacle({300.f, 100.f})    
+    };
 
     while(window.isOpen()) {
         while (const optional event = window.pollEvent()) {
@@ -60,9 +82,15 @@ int main() {
         float deltaTime = deltaClock.restart().asSeconds();
 
         window.clear(sf::Color::Black);
+
         snake.draw(window);
+        for (Obstacle& i : vec_obstacles) {
+            i.draw(window);
+        }
+
         snake.movement(snake_speed, deltaTime);
         window.display();
     }
 }
 // g++ snake_body.cpp -o snake_body.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
+// i dont understand anything
