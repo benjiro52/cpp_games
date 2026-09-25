@@ -40,7 +40,7 @@ void randomSpawn(vector<Obstacle>& obstacles) {
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "aim");
     vector<Obstacle> obstacles;
-    float speed = 500.f;
+    float speed = 450.f;
     int clicks = 0;
 
     sf::Clock deltaClock;
