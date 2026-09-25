@@ -60,7 +60,7 @@ public:
 };
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "preparing3");
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "snake_body");
 
     Snake snake({375.f, 275.f});
     sf::Clock deltaClock;

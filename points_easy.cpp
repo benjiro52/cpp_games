@@ -22,7 +22,7 @@ int main() {
             }
         }
 
-        if (clicks == 1000000) {
+        if (clicks >= 1000000) {
             text.setString("Congratulations, you are crazy)");
         } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
             clicks += 1;
