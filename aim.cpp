@@ -6,7 +6,7 @@ class Obstacle {
 private:
     sf::CircleShape circle;
 public:
-    Obstacle(sf::Vector2f startPos) : circle{20.f} {
+    Obstacle(sf::Vector2f startPos) : circle{28.f} {
         circle.setFillColor(sf::Color::Red);
         circle.setPosition(startPos);
     }
@@ -52,23 +52,31 @@ int main() {
     }
     sf::Text counter(font, "Points: ", 30);
     counter.setFillColor(sf::Color::White);
-    counter.setPosition({50.f, 250.f});
+    counter.setPosition({10.f, 10.f});
 
     while(window.isOpen()) {
         while (const optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
+            if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>()) {
+                if (mouse->button == sf::Mouse::Button::Left) {
+                    sf::Vector2f clickPos = window.mapPixelToCoords(mouse->position);
+                    for (int i = 0; i < obstacles.size(); i++) {
+                        if (obstacles[i].getBounds().contains(clickPos)) {
+                            obstacles.erase(obstacles.begin() + i);
+                            clicks++;
+                            counter.setString("Points: " + to_string(clicks));
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         float deltaTime = deltaClock.restart().asSeconds();
         window.clear(sf::Color::Black);
-
-        // if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        //     clicks += 1;
-        //     counter.setString("Points: " + to_string(clicks));
-        // }
-        // spawning and so on
+        window.draw(counter);
         if (clock.getElapsedTime().asSeconds() >= 0.2f) {
             randomSpawn(obstacles);
             clock.restart();
