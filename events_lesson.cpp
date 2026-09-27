@@ -6,7 +6,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "events_lesson");
 
     while (window.isOpen()) {
-        while (const optional event = window.pollEvent()) {
+        while (const optional event = window.pollEvent()) { // должен как-то сказать "вот тебе событие" или "событий больше нет, очередь пуста"
             if (event->is<sf::Event::Closed>()) { // Когда внутри optional реально что-то лежит, достать это можно через -> (как с указателем
                 window.close();
             }

@@ -7,6 +7,7 @@ using namespace std;
 class Snake {
 private:
     sf::RectangleShape rectangle;
+    sf::Vector2f direction{0.f, 0.f};
 public:
     Snake(sf::Vector2f startPos) : rectangle{sf::Vector2f{25.f, 25.f}} {
         rectangle.setFillColor(sf::Color::Green);
@@ -17,31 +18,17 @@ public:
         window.draw(rectangle);
     }
 
+    void setDirection(sf::Keyboard::Key key) {
+        if (key == sf::Keyboard::Key::W) direction = {0.f, -1.f};
+        if (key == sf::Keyboard::Key::S) direction = {0.f, 1.f};
+        if (key == sf::Keyboard::Key::A) direction = {-1.f, 0.f};
+        if (key == sf::Keyboard::Key::D) direction = {1.f, 0.f};
+    }   
+
     void movement(float speed, float deltaTime) {
-        float distance = speed * deltaTime; 
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-            if (rectangle.getPosition().y - distance >= 0.f) {
-                rectangle.move({0.f, -distance});
-            }
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            if (rectangle.getPosition().y + 25.f + distance <= 600.f) {
-                rectangle.move({0.f, distance});
-            }
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-            if (rectangle.getPosition().x - distance >= 0.f) {
-                rectangle.move({-distance, 0.f});
-            }
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-            if (rectangle.getPosition().x + 25.f + distance <= 800.f) {
-                rectangle.move({distance, 0.f});
-            }
-        }
+        float distance = speed * deltaTime;   
+        rectangle.move({direction.x * distance, direction.y * distance});
     }
-
 
 };
 
@@ -58,6 +45,8 @@ public:
         window.draw(circle);
     }
 };
+
+// можно сюда функцию добавить если в классе ивенты работать не будут
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "snake_body");
@@ -77,6 +66,9 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
+            if (const auto* key = event->getIf<sf::Event::KeyPressed>()) { // ивент на перемещение
+                snake.setDirection(key->code);
+            }
         }
 
         float deltaTime = deltaClock.restart().asSeconds();
@@ -84,7 +76,7 @@ int main() {
         window.clear(sf::Color::Black);
 
         snake.draw(window);
-        for (Obstacle& i : vec_obstacles) {
+        for (Obstacle& i : vec_obstacles) { //рисуются яблочки
             i.draw(window);
         }
 
