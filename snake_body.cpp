@@ -2,8 +2,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Разобраться короче
-
 class Snake {
 private:
     sf::RectangleShape rectangle;
@@ -30,6 +28,9 @@ public:
         rectangle.move({direction.x * distance, direction.y * distance});
     }
 
+    sf::Vector2f getPosition() {
+        return rectangle.getPosition();
+    }
 };
 
 class Obstacle {
@@ -81,6 +82,10 @@ int main() {
         }
 
         snake.movement(snake_speed, deltaTime);
+        sf::Vector2f pos = snake.getPosition();
+        if (pos.x < 0.f || pos.y < 0.f || pos.x + 25.f > 800.f || pos.y + 25.f > 600.f) {
+            window.close();
+        }
         window.display();
     }
 }
