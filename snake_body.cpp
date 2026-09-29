@@ -45,6 +45,10 @@ public:
     void draw(sf::RenderWindow& window) {
         window.draw(circle);
     }
+
+    sf::FloatRect getBounds() {
+        return circle.getGlobalBounds();
+    } 
 };
 
 // можно сюда функцию добавить если в классе ивенты работать не будут
