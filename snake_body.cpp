@@ -31,6 +31,10 @@ public:
     sf::Vector2f getPosition() {
         return rectangle.getPosition();
     }
+
+    sf::FloatRect getBounds() {
+        return rectangle.getGlobalBounds();
+    } 
 };
 
 class Obstacle {
@@ -86,6 +90,13 @@ int main() {
         }
 
         snake.movement(snake_speed, deltaTime);
+
+        for (int i = 0; i < vec_obstacles.size(); i++) {
+            if (snake.getBounds().findIntersection(vec_obstacles[i].getBounds())) {
+                vec_obstacles.erase(vec_obstacles.begin() + i);
+                i--;
+            }
+        }
         sf::Vector2f pos = snake.getPosition();
         if (pos.x < 0.f || pos.y < 0.f || pos.x + 25.f > 800.f || pos.y + 25.f > 600.f) {
             window.close();
