@@ -58,7 +58,7 @@ public:
 // можно сюда функцию добавить если в классе ивенты работать не будут
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "snake_body");
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "snake_movement");
 
     Snake snake({375.f, 275.f});
     sf::Clock deltaClock;
@@ -91,7 +91,7 @@ int main() {
 
         snake.movement(snake_speed, deltaTime);
 
-        for (int i = 0; i < vec_obstacles.size(); i++) {
+        for (int i = 0; i < vec_obstacles.size(); i++) { // касание яблочек
             if (snake.getBounds().findIntersection(vec_obstacles[i].getBounds())) {
                 vec_obstacles.erase(vec_obstacles.begin() + i);
                 i--;
@@ -105,4 +105,3 @@ int main() {
     }
 }
 // g++ snake_body.cpp -o snake_body.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system
-// i dont understand anything
