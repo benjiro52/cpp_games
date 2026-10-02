@@ -36,12 +36,10 @@ public:
 
         bodyPositions[0].x += direction.x * cell_size;
         bodyPositions[0].y += direction.y * cell_size;
-    }   
+    } 
     sf::Vector2f getPosition() {
         return bodyPositions[0];
     }
-
-
 };
 
 class Apple {
@@ -57,17 +55,17 @@ public:
         window.draw(circle);
     }
 
-    sf::FloatRect getBounds() { // for touching
+    sf::FloatRect getBounds() { 
         return circle.getGlobalBounds();
     }
 };
-
+// ну что? Ты понял? - нет
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "snake_body");
     Snake snake({375.f, 275.f});
     float snake_speed = 300.f;
     sf::Clock moveClock;
-    const float moveDelay = 0.13f; // пауза между шагами
+    const float moveDelay = 0.13f; 
 
     sf::Font font;
     if (!font.openFromFile("arial.ttf")) { 
