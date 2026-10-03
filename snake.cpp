@@ -2,6 +2,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+enum class GameState {
+    Menu,
+    Playing, 
+    GameOver
+};
+
 class Snake {
 private:
     sf::RectangleShape rectangle;
@@ -40,13 +46,16 @@ public:
     sf::Vector2f getPosition() {
         return bodyPositions[0];
     }
+    sf::FloatRect getBounds() {
+        return sf::FloatRect({bodyPositions[0].x, bodyPositions[0].y}, {25.f, 25.f});
+    }
 };
 
 class Apple {
 private:
     sf::CircleShape circle;
 public:
-    Apple(sf::Vector2f startPos) : circle{25.f} {
+    Apple(sf::Vector2f startPos) : circle{15.f} {
         circle.setFillColor(sf::Color::Red);
         circle.setPosition(startPos);
     }
@@ -59,19 +68,35 @@ public:
         return circle.getGlobalBounds();
     }
 };
+
+void randomSpawn(vector<Apple>& apples) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> distX(0, 775);
+    uniform_int_distribution<int> distY(0, 575);
+
+    float x = static_cast<float>(distX(gen));
+    float y = static_cast<float>(distY(gen));
+
+    apples.push_back(Apple({x, y}));
+}
+
 // ну что? Ты понял? - нет
 int main() {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "snake_body");
     Snake snake({375.f, 275.f});
+    vector<Apple> apples;
+    randomSpawn(apples);
     float snake_speed = 300.f;
     sf::Clock moveClock;
-    const float moveDelay = 0.13f; 
+    const float moveDelay = 0.13f;
 
     sf::Font font;
     if (!font.openFromFile("arial.ttf")) { 
 
     }
     sf::Text counter(font, "Points: ", 30);
+    int score = 0;
     counter.setFillColor(sf::Color::White);
     counter.setPosition({10.f, 10.f}); 
 
@@ -85,7 +110,6 @@ int main() {
                 snake.setDirection(key->code);
             }
         }
-
         window.clear(sf::Color::Black);
         snake.draw(window);
 
@@ -94,11 +118,29 @@ int main() {
             moveClock.restart();
         }
 
+        int hits = 0;
+        for (int i = 0; i < apples.size(); i++) {
+            if (snake.getBounds().findIntersection(apples[i].getBounds())) {
+                apples.erase(apples.begin() + i);
+                hits++;
+                i--; 
+            }
+        }
+        score += hits;
+        for (int i = 0; i < hits; i++) {
+            randomSpawn(apples);
+        }
+        for (Apple& apl : apples) {
+            apl.draw(window);
+        }
+
+        counter.setString("Points: " + to_string(score));
+        window.draw(counter);
+
         sf::Vector2f pos = snake.getPosition();
         if (pos.x < 0.f || pos.y < 0.f || pos.x + 25.f > 800.f || pos.y + 25.f > 600.f) {
             window.close();
         }
-        
         window.display();
     }
 }
