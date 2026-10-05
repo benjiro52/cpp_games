@@ -2,11 +2,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-enum class GameState {
-    Menu,
-    Playing, 
-    GameOver
-};
+// enum class GameState {
+//     Menu,
+//     Playing, 
+// }; мороки много
 
 class Snake {
 private:
@@ -36,6 +35,9 @@ public:
         if (key == sf::Keyboard::Key::D) direction = {1.f, 0.f};
     }
     void movement(float speed) {
+        if (direction.x == 0.f && direction.y == 0.f) {
+            return; // не двигаемся, пока не задано направление
+        }
         for (int i = bodyPositions.size() - 1; i > 0; i--) {
             bodyPositions[i] = bodyPositions[i - 1];
         }
@@ -48,6 +50,17 @@ public:
     }
     sf::FloatRect getBounds() {
         return sf::FloatRect({bodyPositions[0].x, bodyPositions[0].y}, {25.f, 25.f});
+    }
+    void addOne() {
+        bodyPositions.push_back(bodyPositions.back());
+    }
+    bool selfCollision() {  
+        for (int i = 1; i < bodyPositions.size(); i++) {
+            if (bodyPositions[0] == bodyPositions[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 };
 
@@ -92,14 +105,12 @@ int main() {
     const float moveDelay = 0.13f;
 
     sf::Font font;
-    if (!font.openFromFile("arial.ttf")) { 
+    if (!font.openFromFile("arial.ttf")) {}
 
-    }
     sf::Text counter(font, "Points: ", 30);
     int score = 0;
     counter.setFillColor(sf::Color::White);
     counter.setPosition({10.f, 10.f}); 
-
 
     while (window.isOpen()) {
         while (const optional event = window.pollEvent()) {
@@ -124,6 +135,7 @@ int main() {
                 apples.erase(apples.begin() + i);
                 hits++;
                 i--; 
+                snake.addOne();
             }
         }
         score += hits;
@@ -137,9 +149,13 @@ int main() {
         counter.setString("Points: " + to_string(score));
         window.draw(counter);
 
+        // проверки
         sf::Vector2f pos = snake.getPosition();
         if (pos.x < 0.f || pos.y < 0.f || pos.x + 25.f > 800.f || pos.y + 25.f > 600.f) {
             window.close();
+        }
+        if (snake.selfCollision()) {
+            return 0;
         }
         window.display();
     }
