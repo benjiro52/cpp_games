@@ -25,6 +25,15 @@ int main() {
         cout << "Could not get client address\n";
     }
 
+    char buffer[1024];
+    size_t received = 0;
+
+    if (client.receive(buffer, sizeof(buffer), received) != sf::Socket::Status::Done) { // socket.receive(буфер, размер_буфера, received)
+        cout << "Receive failed\n";
+        return 1;
+    }
+    cout << "Got: " << string(buffer, received) << "\n";
+
     cin.get();
 } 
 // g++ -std=c++17 net/server.cpp -o net/server.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-network -lsfml-system
