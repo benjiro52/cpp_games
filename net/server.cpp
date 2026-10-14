@@ -6,7 +6,7 @@ int main() {
     sf::TcpListener listener;
     sf::TcpSocket client;
 
-    if (listener.listen(53000) != sf::Socket::Status::Done) {
+    if (listener.listen(53000) != sf::Socket::Status::Done) { // слушает порт
         cout << "no port found\n";
         return 1; 
     }
@@ -25,14 +25,22 @@ int main() {
         cout << "Could not get client address\n";
     }
 
-    char buffer[1024];
-    size_t received = 0;
+    sf::Packet packet;
+    string nick, text;
 
-    if (client.receive(buffer, sizeof(buffer), received) != sf::Socket::Status::Done) { // socket.receive(буфер, размер_буфера, received)
-        cout << "Receive failed\n";
-        return 1;
+    for (int i = 0; i < 100; i++) {
+        packet.clear();
+        if (client.receive(packet) != sf::Socket::Status::Done) { // socket.receive(буфер, размер_буфера, received)
+            cout << "Receive failed\n";
+            return 1;
+        }
+        if (!(packet >> nick >> text)) {
+            cout << "Bad packet\n";
+            return 1;
+        }
+
+        cout << "[" << nick << "]: " << text << "\n";
     }
-    cout << "Got: " << string(buffer, received) << "\n";
 
     cin.get();
 } 
