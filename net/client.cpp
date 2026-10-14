@@ -9,9 +9,17 @@ int main() {
     if (client_socket.connect(sf::IpAddress::LocalHost, 53000) != sf::Socket::Status::Done) {
         cout << "Could not connect\n";
         return 1;
+    } else {
+        cout << "Connected to server!\n";
     }
 
-    cout << "Connected to server!\n";
+    string text;
+    getline(cin, text);
+    
+    if (client_socket.send(text.c_str(), text.size()) != sf::Socket::Status::Done) {  // socket.send(данные, размер)
+        cout << "Send failed\n";
+        return 1;
+    }
 
     cin.get();  
 }
