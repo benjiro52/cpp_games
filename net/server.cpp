@@ -56,6 +56,6 @@ int main() {
 
     }
     // i dont understand anything
-    // stupid asf
+    // stupid asf 
 } 
 // g++ -std=c++17 net/server.cpp -o net/server.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-network -lsfml-system
