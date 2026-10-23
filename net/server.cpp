@@ -20,15 +20,13 @@ int main() {
         return 1;
     }
 
-    optional<sf::IpAddress> client_ip = client.getRemoteAddress();
-    if (client_ip.has_value()) {
-        cout << "Client connected: " << client_ip->toString() << ":" << client.getRemotePort() << "\n";
-    } else {
-        cout << "Could not get client address\n";
-    }
+    // optional<sf::IpAddress> client_ip = client.getRemoteAddress();
+    // if (client_ip.has_value()) {
+    //     cout << "Client connected: " << client_ip->toString() << ":" << client.getRemotePort() << "\n";
+    // } else {
+    //     cout << "Could not get client address\n";
+    // }
 
-    sf::Packet packet;
-    string nick, text;
     // проверка на пакетик(100)
     // for (int i = 0; i < 100; i++) {
     //     packet.clear();
@@ -44,6 +42,9 @@ int main() {
     //     cout << "[" << nick << "]: " << text << "\n";
     // }
 
+    sf::Packet packet;
+    string nick, text;
+
     while (true) {
         if (!selector.wait()) continue;   // ждём событие
 
@@ -56,6 +57,8 @@ int main() {
                 selector.add(*new_client);
                 clients.push_back(move(new_client)); 
                 cout << "Client joined, total: " << clients.size() << "\n";
+            } else {
+                cout << "Failed to accept new client\n";
             }
 
             for (auto& client : clients) {
@@ -81,7 +84,7 @@ int main() {
         }
 
     }
-
+    // i dont understand anything
     cin.get();
 } 
 // g++ -std=c++17 net/server.cpp -o net/server.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-network -lsfml-system
