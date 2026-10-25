@@ -26,7 +26,6 @@ int main() {
                 optional<sf::IpAddress> client_ip = new_client->getRemoteAddress();
                 if (client_ip.has_value()) {
                     cout << "New client connected: " << client_ip->toString() << ":" << new_client->getRemotePort() << "\n";
-                    
                 }
                 selector.add(*new_client);
                 clients.push_back(move(new_client)); 
@@ -45,6 +44,13 @@ int main() {
                         continue;
                     }
                     cout << "[" << nick << "]: " << text << "\n";
+                    for (auto& other : clients) { // рассылка
+                        if (other.get() != client.get()) {
+                            if (other->send(packet) != sf::Socket::Status::Done) {
+                                cout << "Send to client failed\n";
+                            }
+                        }
+                    }
                 } else if (status == sf::Socket::Status::Disconnected) {
                     cout << "Client disconnected" << "\n";
                     selector.remove(*client);
@@ -53,6 +59,7 @@ int main() {
                 }                
             }
         }
+        
 
     }
     // i dont understand anything
