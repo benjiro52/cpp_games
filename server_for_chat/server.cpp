@@ -65,4 +65,4 @@ int main() {
     // i dont understand anything
     // stupid asf 
 } 
-// g++ -std=c++17 net/server.cpp -o net/server.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-network -lsfml-system
+// g++ -std=c++17 sever_for_chat/server.cpp -o server_for_chat/server.exe -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-network -lsfml-system
