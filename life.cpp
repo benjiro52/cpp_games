@@ -2,16 +2,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Life_table {
-private: 
-    sf::RectangleShape rectangle;
-public:
-
-};
-
 // sf::Vertex - это точка с двумя основными свойствами: позиция (x, y) и цвет
 // пример: sf::Vertex v({100.f, 50.f}, sf::Color::Red);
-void print_grid(sf::RenderWindow& window, vector<vector<int>>& grid, int cell) {
+void print_grid(sf::RenderWindow& window, const vector<vector<int>>& grid, int cell) {
     sf::VertexArray triangles(sf::PrimitiveType::Triangles);
 
     for (int y = 0; y < grid.size(); y++) {
@@ -42,13 +35,25 @@ void print_grid(sf::RenderWindow& window, vector<vector<int>>& grid, int cell) {
     window.draw(triangles);
 }
 
+void randomSpawn(vector<vector<int>>& grid)  {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> distCols(0, 79);
+    uniform_int_distribution<int> distRows(0, 59);
+
+    for (int i = 0; i < 100; i++) {
+        int d_cols = distCols(gen);
+        int d_rows = distRows(gen);
+        grid[d_rows][d_cols] = 1; 
+    }
+}
+
 int main() {
     const int cols = 80;
     const int rows = 60;
     const int cell = 10;
     vector<vector<int>> grid(rows, vector<int>(cols, 0)); // 60 строк 80 рядов
-    grid[40][35] = 1; grid[50][20] = 1; // test
-
+    randomSpawn(grid);
 
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Life");
     while (window.isOpen()) {
